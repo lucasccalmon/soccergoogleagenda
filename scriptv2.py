@@ -54,6 +54,17 @@ def convert_date(date_str):
 aux = pd.DataFrame({"Original Date": data})
 calendario["data"] = aux["Original Date"].apply(convert_date)
 calendario['hora'] = np.where(calendario['HORA']=="A definir", None,calendario['HORA'])
+def adicionar_uma_hora(valor):
+    if isinstance(valor, str):  # Verificar se o valor é uma string válida
+        try:
+            # Tentar fazer a conversão e adicionar 1 hora
+            return (datetime.strptime(valor, "%H:%M") + timedelta(hours=1)).strftime("%H:%M")
+        except ValueError:
+            return valor  # Caso contrário, retorna o valor original (por exemplo, 'None')
+    return valor  # Retorna o valor se não for string (como None ou NaN)
+
+# Aplicar a função na coluna 'hora'
+calendario['hora'] = calendario['hora'].apply(adicionar_uma_hora)
 count_mandante =calendario['Mandante'].value_counts()
 time_mais_frequente = count_mandante.idxmax()
 calendario['time_em_casa'] = np.where(calendario['Mandante']==time_mais_frequente, True, False)
