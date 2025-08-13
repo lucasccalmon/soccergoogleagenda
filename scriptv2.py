@@ -58,7 +58,7 @@ def adicionar_uma_hora(valor):
     if isinstance(valor, str):  # Verificar se o valor é uma string válida
         try:
             # Tentar fazer a conversão e adicionar 1 hora
-            return (datetime.strptime(valor, "%H:%M") + timedelta(hours=1)).strftime("%H:%M")
+            return (datetime.strptime(valor, "%H:%M")).strftime("%H:%M")
         except ValueError:
             return valor  # Caso contrário, retorna o valor original (por exemplo, 'None')
     return valor  # Retorna o valor se não for string (como None ou NaN)
